@@ -68,9 +68,9 @@ void packet_handler(unsigned char * u, const struct pcap_pkthdr * header, const 
 
 	eth_hdr = (const struct libnet_ethernet_hdr *)packet;
 	type = ntohs(eth_hdr->ether_type);
-	printf("[+] Src MAC : %s\n", mac_to_str(eth_hdr->ether_shost));
-	printf("[+] Dest MAC : %s\n", mac_to_str(eth_hdr->ether_dhost));
-	printf("[+] Ethernet Type : %s\n", eth_to_type(type));
+	printf("Src MAC Addr  : %s\n", mac_to_str(eth_hdr->ether_shost));
+	printf("Dest MAC Addr : %s\n", mac_to_str(eth_hdr->ether_dhost));
+	printf("Ethernet Type : %s\n", eth_to_type(type));
 	
 	if( type == ETHERTYPE_IP )
 	{
@@ -88,9 +88,9 @@ void packet_handler(unsigned char * u, const struct pcap_pkthdr * header, const 
 		{
 			return ;
 		}
-		printf("[+] Src IP : %s\n", ip_to_str(ip_hdr->ip_src.s_addr));
-		printf("[+] Dst IP : %s\n", ip_to_str(ip_hdr->ip_dst.s_addr));	
-		printf("[+] IP Protocol : %s\n", ip_to_type(type),type);
+		printf("Src IP Addr   : %s\n", ip_to_str(ip_hdr->ip_src.s_addr));
+		printf("Dst IP ADdr   : %s\n", ip_to_str(ip_hdr->ip_dst.s_addr));	
+		printf("IP Protocol   : %s\n", ip_to_type(type),type);
 		switch( ip_hdr->ip_p )
 		{
 			case TCP_PROTOCOL:
@@ -99,17 +99,17 @@ void packet_handler(unsigned char * u, const struct pcap_pkthdr * header, const 
 					return ;
 				}	
 				tcp_hdr = (const struct libnet_tcp_hdr *)(((unsigned char *)ip_hdr) + ip_hdr_len);
-				printf("[+] Src PORT : %d\n", ntohs(tcp_hdr->th_sport));
-				printf("[+] Dst PORT : %d\n", ntohs(tcp_hdr->th_dport));	
+				printf("Src PORT      : %d\n", ntohs(tcp_hdr->th_sport));
+				printf("Dst PORT      : %d\n", ntohs(tcp_hdr->th_dport));	
 				break;
-		case UDP_PROTOCOL:
+			case UDP_PROTOCOL:
 				if( header->caplen < (ip_hdr_len + LIBNET_ETH_H + LIBNET_UDP_H))
 				{
 					return ;
 				}
 				udp_hdr = (const struct libnet_udp_hdr *)(((unsigned char*)ip_hdr) + ip_hdr_len);
-				printf("[+] Src PORT : %d\n", ntohs(udp_hdr->uh_sport));
-				printf("[+] Dst PORT : %d\n", ntohs(udp_hdr->uh_dport));	
+				printf("Src PORT      : %d\n", ntohs(udp_hdr->uh_sport));
+				printf("Dst PORT      : %d\n", ntohs(udp_hdr->uh_dport));	
 				break;	
 			default:
 				return ;
